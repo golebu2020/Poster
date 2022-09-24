@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for("static", filename="css/style.css")}}">
+  <!-- <link rel="stylesheet" href="{{ url_for("static", filename="css/animated_bd.css")}}"> -->
+  <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+  <header class="header">
+    <div class="logo"><img class="site-logo" src="{{url_for("static", filename="images/blog-logo.PNG")}}" alt=""></div>
+    <nav class="navigator">
+      <div>
+        <ul class="already_signup">
+          <li>Don't have an account?</li>
+          <li><a href="{{url_for('register')}}" class="login_link">Register</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+           
+  {% block body %}
+  
+  {% endblock %}
+
+ 
+</body>
+</html>

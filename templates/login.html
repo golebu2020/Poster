@@ -1,0 +1,44 @@
+{% extends "base2.html" %} {% block title %} Login {% endblock %} {%
+block body %}
+<main class="main">
+  <section>
+    <div class="container">
+      <h2 class="sign_up">Login</h2>
+      <form action="{{url_for('login')}}" method="POST">
+        <div class="form">
+          <label id="email_label" for="email_input">Email</label>
+          <input
+            id="email_input"
+            type="text"
+            placeholder="Email"
+            name="email"
+            required
+          />
+          {% if email_error == True %}
+          <p class="email-error">&ast;This email is nonexistent</p>
+          {% endif %}
+          <label id="password_label" for="password_input">Password</label>
+          <input
+            id="password_input"
+            type="password"
+            placeholder="Password"
+            name="password"
+            required
+          />
+
+          {% if password_error == True %}
+          <p class="password-error">&ast;Wrong password provided</p>
+          {% endif %}
+          <input
+            id="submit_button"
+            type="submit"
+            value="Login"
+            class="submit"
+          />
+        </div>
+      </form>
+    </div>
+  </section>
+</main>
+
+{% endblock %}

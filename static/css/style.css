@@ -1,0 +1,181 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600&display=swap');
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html {
+  /* font-size: 10px; */
+  /*1 rem = 10px */
+  /* 10px / 16px= 0.625 = 62.5%*/
+  /*Percentage of users' browsers font size setting*/
+  font-size: 62.5%;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  /* DOES NOT WORK ON SAFARI */
+  /* SCROLL-BEHAVIOUR: SMOOTH; */
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    line-height: 1;
+    font-weight: 400;
+    color: #222;
+    /* Only works if there is noting absoluetlely positioned in relation
+    to body*/
+    overflow-x: hidden;
+}
+
+
+.container{
+  background-color: rgb(255, 255, 255); 
+  border-radius: 5px;
+  box-shadow: 3px 3px 20px 10px rgba(0, 0, 0, 0.05);
+  max-width: 36rem;
+  margin: 3.0rem auto;
+  padding: 3.2rem 3.2rem;
+
+}
+
+.sign_up{
+  font-size: 3.0rem;
+  margin-bottom: 2.4rem;
+}
+
+.form{
+  display: grid;
+  grid-template-columns: 1fr;
+  z-index: 4000;
+}
+.form label{
+  width: 90%;
+  font-size: 1.4rem;
+  color: rgba(28, 24, 24, 0.84);
+  font-weight: 500;
+
+
+}
+
+.form input{
+  border-radius: 5px;
+  border: none;
+  background-color: #dcdbdf69;
+  width: 100%;
+  font-size: 1.6rem;
+  margin-top: 1.2rem;
+  margin-bottom: 2.4rem;
+  padding: 1.0rem 1.5rem;
+  font-size: 1.4rem;
+  font-family: inherit;
+}
+.submit{
+  position: relative;
+  margin-top: 50rem;
+  background: linear-gradient(90deg, #ec37d0, #542bd9, #4e54c8, #ec37d0);
+  font-weight: 600;
+  padding: 1.0rem;
+  background-size: 400%;
+  border:none;
+  letter-spacing: 0.1rem;
+  color:#fff;
+  cursor: pointer;
+  /* transition: all 1s; */
+  font-size: 1.4rem !important;
+}
+
+.submit:before{
+  content:'';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  background: linear-gradient(90deg, #ec37d0, #542bd9, #4e54c8, #ec37d0);
+  background-size: 400%;
+  border-radius: 5px;
+  opacity: 0;
+  transition: .5s;
+}
+.submit:hover, .submit:active{
+  animation: animate 5s linear infinite;
+}
+
+.submit:hover::before{
+  filter: blur(25px);
+  opacity: .8;
+  animation: animate 5s linear infinite;
+}
+
+@keyframes animate{
+  0%{
+    background-position: 0%;
+  }
+  100%{
+    background-position: 400%;
+  }
+}
+
+*:focus{
+  outline: none;
+  box-shadow: 0 0 0 0.5rem hsla(237, 66%, 65%, 0.421);
+}
+
+.logo{
+  font-family: 'Rubik Mono One', sans-serif;
+  font-weight: 400;
+  font-size: 2.0rem;
+}
+
+.header{
+  padding: 3.6rem 4.8rem;
+  display: flex;
+  justify-content: space-between;
+  color: #4e54c8;
+}
+
+.already_signup{
+  display: flex;
+  font-size: 1.6rem;
+  color: #555;
+  justify-content: space-between;
+}
+
+.already_signup li{
+  list-style-type: none;
+}
+
+.login_link:visited, .login_link:link{
+  color: #542bd9;
+  z-index: 1000;
+  text-decoration: none;
+  margin-left: 2.4rem;
+  font-weight: 600;
+}
+
+.login_link:hover, .login_link:active{
+  color: #c0c2ea;
+}
+
+.email-error, .password-error{
+  color:#ff0000;
+  font-size: 1.2rem;
+  margin-bottom: 1.2rem;
+}
+
+.site-logo{
+  position: absolute;
+  width: 8%;
+  box-shadow: 3px 3px 20px 10px rgba(194, 19, 136, 0.464);
+  border-radius: 5px;
+  object-fit:contain
+}
+
+
+
+
+
+
+
+

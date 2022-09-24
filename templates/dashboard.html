@@ -1,0 +1,110 @@
+{% extends "header.html" %}
+{% block title %}
+Dashboard
+{% endblock %}
+{% block content %}
+
+<main>
+  <section>
+    
+    <div class="container">    
+      {% if view == "home" %}
+      {% for submitted_post in submitted_posts %}
+      <a href="/dashboard/details/{{submitted_post.title}}/{{submitted_post.post}}" class="blog-link">
+        <div class="container blog-container" >
+          <div class="main-news-container">
+            <div class="author-header-container" > 
+              <img class="author-thumbnail"  src = "{{ submitted_post.author_URL }}" alt="">
+              <div>
+                <span class="author-name">{{ submitted_post.author }}</span>
+                <p class="author-email">{{ submitted_post.email }}</p>
+              </div>
+            </div>
+            
+            <h2 class="blog-heading">{{ submitted_post.title }}</h2>
+            <div class="category-container">
+              <p class="author-category">{{ submitted_post.category }}</p>
+              <p class="vertical-bar">&vert;</p>
+              <p class="blog-date">{{ submitted_post.time.strftime("%B %d, %Y %T") }}</p>
+            </div>
+            
+          </div>
+          <div class="thumbnail-container">
+            <img class="thumbnail" src = "{{ submitted_post.post_URL }}" alt="">
+          </div>        
+        </div>
+      </a>
+      {% endfor %}
+      
+      {% elif view == "post" %}
+      <div class="post-container">
+        
+        <form class="dashboard-post" action="{{url_for('post')}}" method="post" enctype=multipart/form-data>
+          <label for="">Title:</label>
+          <input type="text" class="title" id="title" placeholder="Title" required name="title">
+          <label for="select">Category:</label>
+          <select name="category" id="select" class="select">
+            <option value="">Select category</option>
+            <option value="MARKETS">MARKETS</option>
+            <option value="ECONOMICS">ECONOMICS</option>
+            <option value="GOVERNMENT">GOVERNMENT</option>
+            <option value="ART">ART</option>
+            <option value="BUSINESS">BUSINESS</option>
+          </select>
+          <label for="">Post:</label>
+          <!-- <input type="text" class="post" id="post" placeholder="Post" required> -->
+          <textarea name="post" id="post" cols="30" rows="10" class="post" placeholder="Post" required></textarea>
+          <label class="image-input-label" for="image-input">
+            Select File:               
+          </label>
+          <input autocomplete="off" type="file" accept="image/png, image/jpeg, 
+          image/jpg" id="image-input" class="image-input"  name="image-input">
+          <input type="submit" class="submit" id="submit">
+        </form>
+        <div class="image-container">
+          {% if img_url %}
+          <img class="selected-image" src="{{url_for("static", filename='/images/' + img_url)}}" alt="With static image" >
+          {% else %}
+            <img class="selected-image" style="width: 30%; height: 30%;" src="{{url_for("static", filename="images/image-placeholder.jpg")}}" alt="With static image" >
+          {% endif %} 
+        </div>
+      </div> 
+      {% else %}
+      {% for submitted_post in submitted_posts %}
+      
+      <a href="/dashboard/details/{{submitted_post.title}}/{{submitted_post.post}}" class="blog-link">
+        <div class="container blog-container" >
+          <div class="main-news-container">
+            <div class="author-header-container" > 
+              <img class="author-thumbnail"  src = "{{ submitted_post.author_URL }}" alt="">
+              <div>
+                <span class="author-name">{{ submitted_post.author }}</span>
+                <p class="author-email">{{ submitted_post.email }}</p>
+              </div>
+            </div>
+            
+            <h2 class="blog-heading">{{ submitted_post.title }}</h2>
+            <div class="category-container">
+              <p class="author-category">{{ submitted_post.category }}</p>
+              <p class="vertical-bar">&vert;</p>
+              <p class="blog-date">{{  submitted_post.time.strftime("%B %d, %Y %T") }}</p>
+            </div>
+          
+          </div>
+          <div class="thumbnail-container">
+            <img class="thumbnail" src = "{{ submitted_post.post_URL }}" alt="">
+          </div>        
+        </div>
+      </a>
+      {% endfor %}
+    {% endif %}
+     
+    </div>
+  </section>
+</main>
+<footer>
+
+
+</footer>
+
+{% endblock %}
