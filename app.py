@@ -17,7 +17,7 @@ import os
 app = Flask(__name__)
 load_dotenv()
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///register.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://pnkhhgwsawjwvv:13ce63dda55fe2cd8f47a2a66d51c97bf0065bafb515a0a2fc1fc942f6d30859@ec2-3-214-2-141.compute-1.amazonaws.com:5432/db61n23smb2543'
 app.secret_key= config('SECRET_KEY')
 app.config['IMAGE_UPLOADS'] = '/Users/zinox/Desktop/pyweb/TechWithTim/flask_app/static/images'
 app.config["AVATER-FILE"] = ""
@@ -59,7 +59,7 @@ class Post(db.Model):
   
   
   
-@app.route("/", methods=["POST", "GET"])
+
 @app.route("/register", methods=["POST", "GET"])
 def register():
   if request.method == "POST":    
@@ -87,6 +87,7 @@ def register():
     else:
       return render_template("register.html")
 
+@app.route("/", methods=["POST", "GET"])
 @app.route("/login", methods= ["POST", "GET"])
 def login():
   if request.method == 'POST':
@@ -240,4 +241,4 @@ def savePostImageURL(author, email, author_URL, post_URL, title, category, post)
   
 
 if __name__ == "__main__":
-  app.run(debug=True)
+  app.run(debug=False)

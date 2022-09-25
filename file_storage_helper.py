@@ -1,20 +1,20 @@
 import os
 import pyrebase
 import cloudinary as Cloud
-
+from decouple import config
 
 
 
 class FileStorage:
   
   config = {
-  "apiKey": "AIzaSyASyn4_3tViKDdkp-zCsUgVaIxJcBiFiOU",
-  "authDomain": "poster-f8926.firebaseapp.com",
-  "projectId": "poster-f8926",
-  "storageBucket": "poster-f8926.appspot.com",
-  "messagingSenderId": "58754244570",
-  "appId": "1:58754244570:web:3ba9f5a518547d30f56ae3",
-  "measurementId": "G-RW7H49MGM8",
+  "apiKey": config('firebase_apiKey'),
+  "authDomain": config('firebase_authDomain'),
+  "projectId": config('firebase_projectId'),
+  "storageBucket": config('firebase_storageBucket'),
+  "messagingSenderId": config('firebase_messagingSenderId'),
+  "appId": config('firebase_appId'),
+  "measurementId": config('firebase_measurementId'),
    "databaseURL" : ""
    }
  
