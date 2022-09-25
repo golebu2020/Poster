@@ -110,7 +110,6 @@ def login():
           return render_template('dashboard.html', data = session, 
                                    profile_uploaded = app.config["PROFILE_UPLOADED"], 
                                    my_path=app.config["IMAGE_UPLOADS"], file_list =  os.listdir(app.config['IMAGE_UPLOADS']), submitted_posts = posts)
-          
         else:
           return render_template("login.html", password_error = True)
         
@@ -241,4 +240,5 @@ def savePostImageURL(author, email, author_URL, post_URL, title, category, post)
   
 
 if __name__ == "__main__":
-  app.run(debug=False)
+  port = int(os.getenv('PORT'))
+  app.run(port = port, debug=True)
