@@ -241,4 +241,4 @@ def savePostImageURL(author, email, author_URL, post_URL, title, category, post)
 
 if __name__ == "__main__":
   port = int(os.getenv('PORT'))
-  app.run(port = port, debug=True)
+  app.run(port = 8000, debug = True)
