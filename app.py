@@ -17,7 +17,7 @@ import os
 app = Flask(__name__)
 load_dotenv()
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://pnkhhgwsawjwvv:13ce63dda55fe2cd8f47a2a66d51c97bf0065bafb515a0a2fc1fc942f6d30859@ec2-3-214-2-141.compute-1.amazonaws.com:5432/db61n23smb2543'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://pnkhhgwsawjwvv:13ce63dda55fe2cd8f47a2a66d51c97bf0065bafb515a0a2fc1fc942f6d30859@ec2-3-214-2-141.compute-1.amazonaws.com:5432/db61n23smb2543'
 app.secret_key= config('SECRET_KEY')
 app.config['IMAGE_UPLOADS'] = '/Users/zinox/Desktop/pyweb/TechWithTim/flask_app/static/images'
 app.config["AVATER-FILE"] = ""
