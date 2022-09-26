@@ -188,7 +188,8 @@ def post():
     
     author = session["name"]
     email = session["email"]
-    author_URL = app.config['IMAGE_UPLOADS'] + "/"+ session["email"]+".jpg"
+    reg = Register.query.filter_by(email = session["name"]).first()
+    author_URL = reg.avater
     post_URL = app.config['IMAGE_UPLOADS']+"/"+image.filename
     title = request.form["title"]
     category = request.form['category']
