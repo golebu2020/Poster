@@ -38,6 +38,7 @@ class Register(db.Model):
   email = db.Column(db.String(120), nullable=False)
   password = db.Column(db.Text(), nullable=False)
   profile_uploaded = db.Column(db.String(100), nullable = False)
+  avater = db.Column(db.Text(), nullable=False, default = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png')
   time = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
   
   
@@ -107,13 +108,12 @@ def login():
           session["name"] = register.name
           posts = Post.query.order_by(Post.time).all() 
           
-          # '/tmp' ~ '' ~ session['email'] ~ '' ~ '.jpg'
           avater = app.config["IMAGE_UPLOADS"] +"/"+session['email'] +'.jpg';  
           return render_template('dashboard.html', data = session, 
                                    profile_uploaded = app.config["PROFILE_UPLOADED"], 
                                    my_path=app.config["IMAGE_UPLOADS"], 
                                    file_list =  os.listdir(app.config['IMAGE_UPLOADS']), 
-                                   submitted_posts = posts, avaterRound = avater)
+                                   submitted_posts = posts)
         else:
           return render_template("login.html", password_error = True)
         
@@ -139,18 +139,12 @@ def dashboard():
     image.save(path)
     
     if Register.query.filter_by(email = session["email"]).first_or_404().profile_uploaded == "False":
-      #upload pics     
-      storage.uploadProfileURL(path, session["email"]);    
-      Register.query.filter_by(email = session["email"]).first_or_404().profile_uploaded = "True"
-      db.session.commit()
-      #download pics
-      storage.downloadProfileURL(app.config["IMAGE_UPLOADS"], session["email"])
+      uploadAvater(path)
       posts = Post.query.order_by(Post.time).all()
-      avater = app.config["IMAGE_UPLOADS"] +"/"+session['email'] +'.jpg';  
       return render_template('dashboard.html', avater_url = profile_photo, 
                            data = session, profile_uploaded = app.config["PROFILE_UPLOADED"], 
                            my_path= app.config["IMAGE_UPLOADS"], file_list =  os.listdir(app.config['IMAGE_UPLOADS']),
-                           view = "home", submitted_posts = posts, avaterRound = avater)
+                           view = "home", submitted_posts = posts)
     
   else:
     if "email" in session:
@@ -158,12 +152,12 @@ def dashboard():
         storage.downloadProfileURL(app.config["IMAGE_UPLOADS"], session["email"])
       posts = Post.query.order_by(Post.time).all()
       reversed(posts)
-      avater = app.config["IMAGE_UPLOADS"] +"/"+session['email'] +'.jpg';            
+                  
       return render_template('dashboard.html', data = session, 
                                    profile_uploaded = app.config["PROFILE_UPLOADED"], 
                                    my_path=app.config["IMAGE_UPLOADS"], 
                                    file_list =  os.listdir(app.config['IMAGE_UPLOADS']), 
-                                   submitted_posts = posts, avaterRound = avater)
+                                   submitted_posts = posts)
     else:
       return redirect("/login")
 
@@ -227,6 +221,25 @@ def checkPasswordValidity(password, repassword):
     return True
   return False
 
+def uploadAvater(URL):
+  cloudinary.config(cloud_name = config('CLOUD_NAME'), api_key= config('API_KEY'), 
+  api_secret= config('API_SECRET'))
+  response= cloudinary.uploader.upload(URL)
+  saveAvater(response.get('secure_URL'))
+  
+  
+def saveAvater(URL):
+  
+  register = Register.query.filter_by(email = session['email']).first()
+  register.avater = URL
+  db.session.commit()
+  # return redirect(url_for('dashboard', data = session, 
+  #                                  profile_uploaded = app.config["PROFILE_UPLOADED"], 
+  #                                  my_path=app.config["IMAGE_UPLOADS"], 
+  #                                  file_list =  os.listdir(app.config['IMAGE_UPLOADS']), 
+  #                                  view="home", submitted_posts = posts))
+  # ...
+
 def uploadPostImage(author, email, author_URL, post_URL, title, category, post):
 
   cloudinary.config(cloud_name = config('CLOUD_NAME'), api_key= config('API_KEY'), 
@@ -245,13 +258,12 @@ def savePostImageURL(author, email, author_URL, post_URL, title, category, post)
   db.session.commit()
   posts = Post.query.order_by(Post.time).all()
   reversed(posts)
-  print("The New Post has been saved")
-  avater = app.config["IMAGE_UPLOADS"] +"/"+session['email'] +'.jpg';        
+          
   return redirect(url_for('dashboard', data = session, 
                                    profile_uploaded = app.config["PROFILE_UPLOADED"], 
                                    my_path=app.config["IMAGE_UPLOADS"], 
                                    file_list =  os.listdir(app.config['IMAGE_UPLOADS']), 
-                                   view="home", submitted_posts = posts, avaterRound = avater))
+                                   view="home", submitted_posts = posts))
   
 
 if __name__ == "__main__":
