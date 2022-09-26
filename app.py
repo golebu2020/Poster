@@ -117,10 +117,10 @@ def login():
           #                          profile_uploaded = app.config["PROFILE_UPLOADED"], 
           #                          my_path=app.config["IMAGE_UPLOADS"], file_list =  os.listdir(app.config['IMAGE_UPLOADS']), submitted_posts = posts)
           
-        else:
-          return render_template("login.html", password_error = True)
+        # else:
+        #   return render_template("login.html", password_error = True)
         
-    return render_template("login.html", email_error = True)
+      return render_template("login.html", email_error = True)
   else:
     if "email" in session:
       return redirect(url_for('dashboard', view = "home", data=session))
