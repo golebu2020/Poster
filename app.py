@@ -102,11 +102,13 @@ def login():
     for register in register_db:
       if email == register.email:
         if check_password_hash(register.password, password):
+        
+          session.permanent = True
+          session["email"] = email
+          register = Register.query.filter_by(email = email).first()
+          session["name"] = register.name
+          
           return 'Hello'
-          # session.permanent = True
-          # session["email"] = email
-          # register = Register.query.filter_by(email = email).first()
-          # session["name"] = register.name
           
           # posts = Post.query.order_by(Post.time).all()  
           # return render_template('dashboard.html', data = session, 
