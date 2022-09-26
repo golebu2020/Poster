@@ -23,8 +23,8 @@
           <li><a href="{{url_for('dashboard')}}">Blog Page</a></li>
           <li><a href="{{url_for('logout')}}">Log out</a></li> 
             
-          {% if session['email'] ~ '' ~ '' ~ '.jpg' in file_list %}
-          <img class="selected-image-avater" onclick="revealSettings()" src="{{url_for('static', filename= '/tmp/' + session['email']+'.jpg')}}" alt="With static image" >
+          {% if session['email'] ~ '' ~ '' ~ '.jpg' in file_list %}   
+          <img class="selected-image-avater" onclick="revealSettings()" src="{{ avaterRound }}" alt="With static image" >
           {% else %}
           <li><button class="settings-btn" onclick="revealSettings()"><ion-icon class="person" name="person-circle"></ion-icon></button></li>
           {% endif %}
