@@ -92,10 +92,29 @@ def register():
 @app.route("/login", methods= ["POST", "GET"])
 def login():
   if request.method == 'POST':
-    return "Hello"
-    # email = request.form["email"]
-    # password = request.form["password"] 
-    # crypto = Security()
+ 
+    email = request.form["email"]
+    password = request.form["password"] 
+    crypto = Security()
+    register = Register.query.filter_by(email = email)
+    # password = crypto.encrypt(password)
+    # register = Register.query.filter_by(email = email, password =  crypto.decrypt(password).decode('UTF-8')).first()
+    if register:
+      session['email'] = email
+      session['name'] = register.name
+      posts = Post.query.order_by(Post.time).all()  
+      return render_template('dashboard.html', data = session, 
+                                   profile_uploaded = app.config["PROFILE_UPLOADED"], 
+                                   my_path=app.config["IMAGE_UPLOADS"], file_list =  os.listdir(app.config['IMAGE_UPLOADS']), submitted_posts = posts)
+    else:
+      return render_template("login.html", email_error = True)
+  else:
+    if "email" in session:
+      return redirect(url_for('dashboard', view = "home", data=session))
+    else:
+      return render_template("login.html")
+    
+    
     # register_db = Register.query.all()
     # for register in register_db:
     #   decrypted_password = crypto.decrypt(register.password)
@@ -116,12 +135,14 @@ def login():
     #     else:
     #       return render_template("login.html", password_error = True)
         
-    return render_template("login.html", email_error = True)
-  else:
-    if "email" in session:
-      return redirect(url_for('dashboard', view = "home", data=session))
-    else:
-      return render_template("login.html")
+  #   return render_template("login.html", email_error = True)
+  # else:
+  #   if "email" in session:
+  #     return redirect(url_for('dashboard', view = "home", data=session))
+  #   else:
+  #     return render_template("login.html")
+    
+
 
 @app.route("/dashboard", methods = ["POST", "GET"])
 def dashboard():
