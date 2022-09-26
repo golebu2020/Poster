@@ -188,7 +188,7 @@ def post():
     
     author = session["name"]
     email = session["email"]
-    reg = Register.query.filter_by(email = session["name"]).first()
+    reg = Register.query.filter_by(email = session["email"]).first()
     author_URL = reg.avater
     post_URL = app.config['IMAGE_UPLOADS']+"/"+image.filename
     title = request.form["title"]
@@ -257,7 +257,6 @@ def savePostImageURL(author, email, author_URL, post_URL, title, category, post)
   db.session.add(post)
   db.session.commit()
   posts = Post.query.order_by(Post.time).all()
-  reversed(posts)
   register = Register.query.filter_by(email = session["email"]).first()         
   return redirect(url_for('dashboard', data = session, 
                                    profile_uploaded = app.config["PROFILE_UPLOADED"], 
