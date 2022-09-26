@@ -21,7 +21,8 @@ load_dotenv()
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://mxykwmrfixgxll:19711ff96fa8cea70735297638106ab09d1f595eccc81899d3164d31242458ba@ec2-23-23-151-191.compute-1.amazonaws.com:5432/d9c0t8kfbi1t2k'
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://pnkhhgwsawjwvv:13ce63dda55fe2cd8f47a2a66d51c97bf0065bafb515a0a2fc1fc942f6d30859@ec2-3-214-2-141.compute-1.amazonaws.com:5432/db61n23smb2543'
 app.secret_key= config('SECRET_KEY')
-app.config['IMAGE_UPLOADS'] = r'C:\Users\zinox\Desktop\pyweb\TechWithTim\flask_app\static\images'
+# app.config['IMAGE_UPLOADS'] = r'C:\Users\zinox\Desktop\pyweb\TechWithTim\flask_app\static\images'
+app.config['IMAGE_UPLOADS'] = '/tmp/'
 app.config["AVATER-FILE"] = ""
 app.config["PROFILE_UPLOADED"] = "false"
 app.permanent_session_lifetime=timedelta(minutes=2)
@@ -101,15 +102,16 @@ def login():
     for register in register_db:
       if email == register.email:
         if check_password_hash(register.password, password):
-          session.permanent = True
-          session["email"] = email
-          register = Register.query.filter_by(email = email).first()
-          session["name"] = register.name
+          return 'Hello'
+          # session.permanent = True
+          # session["email"] = email
+          # register = Register.query.filter_by(email = email).first()
+          # session["name"] = register.name
           
-          posts = Post.query.order_by(Post.time).all()  
-          return render_template('dashboard.html', data = session, 
-                                   profile_uploaded = app.config["PROFILE_UPLOADED"], 
-                                   my_path=app.config["IMAGE_UPLOADS"], file_list =  os.listdir(app.config['IMAGE_UPLOADS']), submitted_posts = posts)
+          # posts = Post.query.order_by(Post.time).all()  
+          # return render_template('dashboard.html', data = session, 
+          #                          profile_uploaded = app.config["PROFILE_UPLOADED"], 
+          #                          my_path=app.config["IMAGE_UPLOADS"], file_list =  os.listdir(app.config['IMAGE_UPLOADS']), submitted_posts = posts)
         else:
           return render_template("login.html", password_error = True)
         
