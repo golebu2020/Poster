@@ -24,7 +24,7 @@
           <li><a href="{{url_for('logout')}}">Log out</a></li> 
             
           {% if session['email'] ~ '' ~ '' ~ '.jpg' in file_list %}
-          <img class="selected-image-avater" onclick="revealSettings()" src="{{url_for('static', filename= 'images/' + session['email']+'.jpg')}}" alt="With static image" >
+          <img class="selected-image-avater" onclick="revealSettings()" src="{{url_for('static', filename= '/tmp/' + session['email']+'.jpg')}}" alt="With static image" >
           {% else %}
           <li><button class="settings-btn" onclick="revealSettings()"><ion-icon class="person" name="person-circle"></ion-icon></button></li>
           {% endif %}
