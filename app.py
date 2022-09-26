@@ -108,12 +108,13 @@ def login():
           session["name"] = register.name
           posts = Post.query.order_by(Post.time).all() 
           
-          avater = app.config["IMAGE_UPLOADS"] +"/"+session['email'] +'.jpg';  
+            
+          register = Register.query.filter_by(email = session["email"]).first() 
           return render_template('dashboard.html', data = session, 
                                    profile_uploaded = app.config["PROFILE_UPLOADED"], 
                                    my_path=app.config["IMAGE_UPLOADS"], 
                                    file_list =  os.listdir(app.config['IMAGE_UPLOADS']), 
-                                   submitted_posts = posts)
+                                   submitted_posts = posts, avater = register.avater)
         else:
           return render_template("login.html", password_error = True)
         
@@ -141,10 +142,11 @@ def dashboard():
     if Register.query.filter_by(email = session["email"]).first_or_404().profile_uploaded == "False":
       uploadAvater(path)
       posts = Post.query.order_by(Post.time).all()
+      register = Register.query.filter_by(email = session["email"]).first()
       return render_template('dashboard.html', avater_url = profile_photo, 
                            data = session, profile_uploaded = app.config["PROFILE_UPLOADED"], 
                            my_path= app.config["IMAGE_UPLOADS"], file_list =  os.listdir(app.config['IMAGE_UPLOADS']),
-                           view = "home", submitted_posts = posts)
+                           view = "home", submitted_posts = posts, avater = register.avater)
     
   else:
     if "email" in session:
@@ -152,12 +154,12 @@ def dashboard():
         storage.downloadProfileURL(app.config["IMAGE_UPLOADS"], session["email"])
       posts = Post.query.order_by(Post.time).all()
       reversed(posts)
-                  
+      register = Register.query.filter_by(email = session["email"]).first()         
       return render_template('dashboard.html', data = session, 
                                    profile_uploaded = app.config["PROFILE_UPLOADED"], 
                                    my_path=app.config["IMAGE_UPLOADS"], 
                                    file_list =  os.listdir(app.config['IMAGE_UPLOADS']), 
-                                   submitted_posts = posts)
+                                   submitted_posts = posts, avater = register.avater)
     else:
       return redirect("/login")
 
@@ -195,26 +197,23 @@ def post():
     uploadPostImage(author, email, author_URL, post_URL, title, category, post)
 
   else:
-    ...
-    # if Register.query.filter_by(email = session["email"]).first_or_404().profile_uploaded == "True":
-    #   storage.downloadProfileURL(app.config["IMAGE_UPLOADS"], session["email"])
-  avater = app.config["IMAGE_UPLOADS"] +"/"+session['email'] +'.jpg';          
-  return render_template('dashboard.html', data = session, view="post",
+    register = Register.query.filter_by(email = session["email"]).first()          
+    return render_template('dashboard.html', data = session, view="post",
                                    profile_uploaded = app.config["PROFILE_UPLOADED"], 
                                    my_path=app.config["IMAGE_UPLOADS"], 
                                    file_list =  os.listdir(app.config['IMAGE_UPLOADS']),
-                                   avaterRound = avater)
+                                   avater = register.avater)
       
 
 @app.route("/dashboard/details/<title>/<post>", methods=["POST", "GET"])
 def details(title, post):
   if request.method == 'GET':
-    avater = app.config["IMAGE_UPLOADS"] +"/"+session['email'] +'.jpg';        
+    register = Register.query.filter_by(email = session["email"]).first()        
     return render_template('details.html', data = session, view="post",
                                    profile_uploaded = app.config["PROFILE_UPLOADED"], 
                                    my_path=app.config["IMAGE_UPLOADS"],
                                    file_list =  os.listdir(app.config['IMAGE_UPLOADS']), 
-                                   title=title, post=post, avaterRound = avater)
+                                   title=title, post=post, avater = register.avater)
 
 def checkPasswordValidity(password, repassword):
   if password == repassword:
@@ -258,12 +257,12 @@ def savePostImageURL(author, email, author_URL, post_URL, title, category, post)
   db.session.commit()
   posts = Post.query.order_by(Post.time).all()
   reversed(posts)
-          
+  register = Register.query.filter_by(email = session["email"]).first()         
   return redirect(url_for('dashboard', data = session, 
                                    profile_uploaded = app.config["PROFILE_UPLOADED"], 
                                    my_path=app.config["IMAGE_UPLOADS"], 
                                    file_list =  os.listdir(app.config['IMAGE_UPLOADS']), 
-                                   view="home", submitted_posts = posts))
+                                   view="home", submitted_posts = posts, avater = register.avater))
   
 
 if __name__ == "__main__":
