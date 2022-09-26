@@ -99,8 +99,8 @@ def login():
     
     register_db = Register.query.all()
     for register in register_db:
-      # decrypted_password = crypto.decrypt(register.password)
-      # decrypted_password = decrypted_password.decode("UTF-8")
+      decrypted_password = crypto.decrypt(register.password)
+      decrypted_password = decrypted_password.decode("UTF-8")
       if email == register.email:
         # if decrypted_password == password:
         return 'Thanks'
