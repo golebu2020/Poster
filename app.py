@@ -20,7 +20,7 @@ load_dotenv()
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://qpoafdplqozyfw:8d75c7c698249262ee97eee06953db8b28d14cb92b3eeb256d281238343f0685@ec2-34-193-44-192.compute-1.amazonaws.com:5432/d55fleer1o0ril'
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://pnkhhgwsawjwvv:13ce63dda55fe2cd8f47a2a66d51c97bf0065bafb515a0a2fc1fc942f6d30859@ec2-3-214-2-141.compute-1.amazonaws.com:5432/db61n23smb2543'
 app.secret_key= config('SECRET_KEY')
-app.config['IMAGE_UPLOADS'] = '/Users/zinox/Desktop/pyweb/TechWithTim/flask_app/static/images'
+app.config['IMAGE_UPLOADS'] = '/temp'
 app.config["AVATER-FILE"] = ""
 app.config["PROFILE_UPLOADED"] = "false"
 app.permanent_session_lifetime=timedelta(minutes=2)
