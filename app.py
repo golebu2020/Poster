@@ -17,7 +17,8 @@ import os
 app = Flask(__name__)
 load_dotenv()
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://pnkhhgwsawjwvv:13ce63dda55fe2cd8f47a2a66d51c97bf0065bafb515a0a2fc1fc942f6d30859@ec2-3-214-2-141.compute-1.amazonaws.com:5432/db61n23smb2543'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://qpoafdplqozyfw:8d75c7c698249262ee97eee06953db8b28d14cb92b3eeb256d281238343f0685@ec2-34-193-44-192.compute-1.amazonaws.com:5432/d55fleer1o0ril'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://pnkhhgwsawjwvv:13ce63dda55fe2cd8f47a2a66d51c97bf0065bafb515a0a2fc1fc942f6d30859@ec2-3-214-2-141.compute-1.amazonaws.com:5432/db61n23smb2543'
 app.secret_key= config('SECRET_KEY')
 app.config['IMAGE_UPLOADS'] = '/Users/zinox/Desktop/pyweb/TechWithTim/flask_app/static/images'
 app.config["AVATER-FILE"] = ""
@@ -33,7 +34,7 @@ class Register(db.Model):
   id = db.Column(db.Integer, primary_key = True)
   name = db.Column(db.String(100), nullable=False)
   email = db.Column(db.String(120), nullable=False)
-  password = db.Column(db.Text, nullable=False)
+  password = db.Column(db.Text(), nullable=False)
   profile_uploaded = db.Column(db.String(100), nullable = False)
   time = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
   
@@ -45,12 +46,12 @@ class Register(db.Model):
 class Post(db.Model):
   id = db.Column(db.Integer, primary_key = True)
   author = db.Column(db.String(100), nullable=False)
-  email = db.Column(db.Text, nullable=False)
-  author_URL = db.Column(db.Text, nullable=True)
-  post_URL = db.Column(db.Text, nullable=False)
+  email = db.Column(db.Text(), nullable=False)
+  author_URL = db.Column(db.Text(), nullable=True)
+  post_URL = db.Column(db.Text(), nullable=False)
   title = db.Column(db.String(120), nullable=False)
   category = db.Column(db.String(80), nullable=False)
-  post = db.Column(db.Text, nullable=False)
+  post = db.Column(db.Text(), nullable=False)
   time = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
   
   
@@ -106,7 +107,7 @@ def login():
           session["name"] = register.name
           
           posts = Post.query.order_by(Post.time).all()  
-          reversed(posts)
+          
           return render_template('dashboard.html', data = session, 
                                    profile_uploaded = app.config["PROFILE_UPLOADED"], 
                                    my_path=app.config["IMAGE_UPLOADS"], file_list =  os.listdir(app.config['IMAGE_UPLOADS']), submitted_posts = posts)
@@ -241,4 +242,4 @@ def savePostImageURL(author, email, author_URL, post_URL, title, category, post)
   
 
 if __name__ == "__main__":
-  app.run(debug=False)
+  app.run()
