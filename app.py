@@ -249,4 +249,4 @@ def savePostImageURL(author, email, author_URL, post_URL, title, category, post)
   
 
 if __name__ == "__main__":
-  app.run()
+  app.run(debug = True)
