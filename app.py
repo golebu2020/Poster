@@ -4,7 +4,6 @@ from email.policy import default
 from flask import Flask, redirect, render_template, url_for, session, request
 from flask_sqlalchemy import SQLAlchemy
 from file_storage_helper import FileStorage
-from security import Security
 import cloudinary
 import cloudinary.uploader
 from decouple import config
@@ -12,15 +11,17 @@ from decouple import config
 from dotenv import load_dotenv
 from werkzeug.utils import secure_filename
 import os
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 app = Flask(__name__)
 load_dotenv()
 
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://qpoafdplqozyfw:8d75c7c698249262ee97eee06953db8b28d14cb92b3eeb256d281238343f0685@ec2-34-193-44-192.compute-1.amazonaws.com:5432/d55fleer1o0ril'
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://pnkhhgwsawjwvv:13ce63dda55fe2cd8f47a2a66d51c97bf0065bafb515a0a2fc1fc942f6d30859@ec2-3-214-2-141.compute-1.amazonaws.com:5432/db61n23smb2543'
 app.secret_key= config('SECRET_KEY')
-app.config['IMAGE_UPLOADS'] = '/temp'
+app.config['IMAGE_UPLOADS'] = r'C:\Users\zinox\Desktop\pyweb\TechWithTim\flask_app\static\images'
 app.config["AVATER-FILE"] = ""
 app.config["PROFILE_UPLOADED"] = "false"
 app.permanent_session_lifetime=timedelta(minutes=2)
@@ -74,8 +75,7 @@ def register():
       if Register.query.filter_by(email=email).first():
         return render_template("register.html", error=True)
       else:
-        crypto = Security()
-        register = Register(name=name, email=email, profile_uploaded = "False", password=crypto.encrypt(password))
+        register = Register(name=name, email=email, profile_uploaded = "False", password=generate_password_hash(password))
         db.session.add(register)
         db.session.commit()
         return redirect("/login")
@@ -95,32 +95,25 @@ def login():
  
     email = request.form["email"]
     password = request.form["password"] 
-    crypto = Security()
+    
     
     register_db = Register.query.all()
     for register in register_db:
-      decrypted_password = crypto.decrypt(register.password)
-      decrypted_password = decrypted_password.decode("UTF-8")
       if email == register.email:
-        # if decrypted_password == password:
-        return 'Thanks'
-          # # session.permanent = True
-          # # session["email"] = email
-          # register = Register.query.filter_by(email = email).first()
-          # # session["name"] = register.name
+        if check_password_hash(register.password, password):
+          session.permanent = True
+          session["email"] = email
+          register = Register.query.filter_by(email = email).first()
+          session["name"] = register.name
           
-          # posts = Post.query.order_by(Post.time).all()  
-          # return render_template('dashboard.html', data = session,
-          #                    profile_uploaded = app.config["PROFILE_UPLOADED"], submitted_posts = posts)
-          
-          # return render_template('dashboard.html', data = session, 
-          #                          profile_uploaded = app.config["PROFILE_UPLOADED"], 
-          #                          my_path=app.config["IMAGE_UPLOADS"], file_list =  os.listdir(app.config['IMAGE_UPLOADS']), submitted_posts = posts)
-          
-        # else:
-        #   return render_template("login.html", password_error = True)
+          posts = Post.query.order_by(Post.time).all()  
+          return render_template('dashboard.html', data = session, 
+                                   profile_uploaded = app.config["PROFILE_UPLOADED"], 
+                                   my_path=app.config["IMAGE_UPLOADS"], file_list =  os.listdir(app.config['IMAGE_UPLOADS']), submitted_posts = posts)
+        else:
+          return render_template("login.html", password_error = True)
         
-      return render_template("login.html", email_error = True)
+    return render_template("login.html", email_error = True)
   else:
     if "email" in session:
       return redirect(url_for('dashboard', view = "home", data=session))
