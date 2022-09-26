@@ -103,14 +103,15 @@ def login():
       decrypted_password = decrypted_password.decode("UTF-8")
       if email == register.email:
         if decrypted_password == password:
-          # session.permanent = True
-          # session["email"] = email
-          register = Register.query.filter_by(email = email).first()
-          # session["name"] = register.name
+          return 'Thanks'
+          # # session.permanent = True
+          # # session["email"] = email
+          # register = Register.query.filter_by(email = email).first()
+          # # session["name"] = register.name
           
-          posts = Post.query.order_by(Post.time).all()  
-          return render_template('dashboard.html', data = session,
-                             profile_uploaded = app.config["PROFILE_UPLOADED"], submitted_posts = posts)
+          # posts = Post.query.order_by(Post.time).all()  
+          # return render_template('dashboard.html', data = session,
+          #                    profile_uploaded = app.config["PROFILE_UPLOADED"], submitted_posts = posts)
           
           # return render_template('dashboard.html', data = session, 
           #                          profile_uploaded = app.config["PROFILE_UPLOADED"], 
