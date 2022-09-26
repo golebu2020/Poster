@@ -101,7 +101,8 @@ def login():
     # register = Register.query.filter_by(email = email, password =  crypto.decrypt(password).decode('UTF-8')).first()
     if register:
       posts = Post.query.order_by(Post.time).all() 
-      return render_template('dashboard.html', data = session, profile_uploaded = app.config["PROFILE_UPLOADED"])
+      return render_template('dashboard.html', data = session,
+                             profile_uploaded = app.config["PROFILE_UPLOADED"], submitted_posts = posts)
       # session['email'] = email
       # session['name'] = register.name
     #   posts = Post.query.order_by(Post.time).all()  
