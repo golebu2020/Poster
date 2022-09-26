@@ -108,7 +108,7 @@ def login():
           posts = Post.query.order_by(Post.time).all() 
           
           # '/tmp' ~ '' ~ session['email'] ~ '' ~ '.jpg'
-          avater = app.config["IMAGE_UPLOADS"] + session['email'] +'.jpg';
+          avater = app.config["IMAGE_UPLOADS"] +"/"+session['email'] +'.jpg';  
           return render_template('dashboard.html', data = session, 
                                    profile_uploaded = app.config["PROFILE_UPLOADED"], 
                                    my_path=app.config["IMAGE_UPLOADS"], 
@@ -146,7 +146,7 @@ def dashboard():
       #download pics
       storage.downloadProfileURL(app.config["IMAGE_UPLOADS"], session["email"])
       posts = Post.query.order_by(Post.time).all()
-      avater = app.config["IMAGE_UPLOADS"] + session['email'] +'.jpg';
+      avater = app.config["IMAGE_UPLOADS"] +"/"+session['email'] +'.jpg';  
       return render_template('dashboard.html', avater_url = profile_photo, 
                            data = session, profile_uploaded = app.config["PROFILE_UPLOADED"], 
                            my_path= app.config["IMAGE_UPLOADS"], file_list =  os.listdir(app.config['IMAGE_UPLOADS']),
@@ -158,7 +158,7 @@ def dashboard():
         storage.downloadProfileURL(app.config["IMAGE_UPLOADS"], session["email"])
       posts = Post.query.order_by(Post.time).all()
       reversed(posts)
-      avater = app.config["IMAGE_UPLOADS"] + session['email'] +'.jpg';          
+      avater = app.config["IMAGE_UPLOADS"] +"/"+session['email'] +'.jpg';            
       return render_template('dashboard.html', data = session, 
                                    profile_uploaded = app.config["PROFILE_UPLOADED"], 
                                    my_path=app.config["IMAGE_UPLOADS"], 
@@ -204,7 +204,7 @@ def post():
     ...
     # if Register.query.filter_by(email = session["email"]).first_or_404().profile_uploaded == "True":
     #   storage.downloadProfileURL(app.config["IMAGE_UPLOADS"], session["email"])
-  avater = app.config["IMAGE_UPLOADS"] + session['email'] +'.jpg';          
+  avater = app.config["IMAGE_UPLOADS"] +"/"+session['email'] +'.jpg';          
   return render_template('dashboard.html', data = session, view="post",
                                    profile_uploaded = app.config["PROFILE_UPLOADED"], 
                                    my_path=app.config["IMAGE_UPLOADS"], 
@@ -215,7 +215,7 @@ def post():
 @app.route("/dashboard/details/<title>/<post>", methods=["POST", "GET"])
 def details(title, post):
   if request.method == 'GET':
-    avater = app.config["IMAGE_UPLOADS"] + session['email'] +'.jpg';      
+    avater = app.config["IMAGE_UPLOADS"] +"/"+session['email'] +'.jpg';        
     return render_template('details.html', data = session, view="post",
                                    profile_uploaded = app.config["PROFILE_UPLOADED"], 
                                    my_path=app.config["IMAGE_UPLOADS"],
@@ -246,7 +246,7 @@ def savePostImageURL(author, email, author_URL, post_URL, title, category, post)
   posts = Post.query.order_by(Post.time).all()
   reversed(posts)
   print("The New Post has been saved")
-  avater = app.config["IMAGE_UPLOADS"] + session['email'] +'.jpg';      
+  avater = app.config["IMAGE_UPLOADS"] +"/"+session['email'] +'.jpg';        
   return redirect(url_for('dashboard', data = session, 
                                    profile_uploaded = app.config["PROFILE_UPLOADED"], 
                                    my_path=app.config["IMAGE_UPLOADS"], 
