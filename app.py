@@ -92,28 +92,29 @@ def register():
 @app.route("/login", methods= ["POST", "GET"])
 def login():
   if request.method == 'POST':
-    email = request.form["email"]
-    password = request.form["password"] 
-    crypto = Security()
-    register_db = Register.query.all()
-    for register in register_db:
-      decrypted_password = crypto.decrypt(register.password)
-      decrypted_password = decrypted_password.decode("UTF-8")
-      if email == register.email:
-        if decrypted_password == password:
-          # session.permanent = True
-          session["email"] = email
-          register = Register.query.filter_by(email = email).first()
-          session["name"] = register.name
+    return "Hello"
+    # email = request.form["email"]
+    # password = request.form["password"] 
+    # crypto = Security()
+    # register_db = Register.query.all()
+    # for register in register_db:
+    #   decrypted_password = crypto.decrypt(register.password)
+    #   decrypted_password = decrypted_password.decode("UTF-8")
+    #   if email == register.email:
+    #     if decrypted_password == password:
+    #       # session.permanent = True
+    #       session["email"] = email
+    #       register = Register.query.filter_by(email = email).first()
+    #       session["name"] = register.name
           
-          posts = Post.query.order_by(Post.time).all()  
+    #       posts = Post.query.order_by(Post.time).all()  
           
-          return render_template('dashboard.html', data = session, 
-                                   profile_uploaded = app.config["PROFILE_UPLOADED"], 
-                                   my_path=app.config["IMAGE_UPLOADS"], file_list =  os.listdir(app.config['IMAGE_UPLOADS']), submitted_posts = posts)
+    #       return render_template('dashboard.html', data = session, 
+    #                                profile_uploaded = app.config["PROFILE_UPLOADED"], 
+    #                                my_path=app.config["IMAGE_UPLOADS"], file_list =  os.listdir(app.config['IMAGE_UPLOADS']), submitted_posts = posts)
           
-        else:
-          return render_template("login.html", password_error = True)
+    #     else:
+    #       return render_template("login.html", password_error = True)
         
     return render_template("login.html", email_error = True)
   else:
