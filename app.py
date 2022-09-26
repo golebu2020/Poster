@@ -17,12 +17,12 @@ from werkzeug.security import generate_password_hash, check_password_hash
 app = Flask(__name__)
 load_dotenv()
 
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://mxykwmrfixgxll:19711ff96fa8cea70735297638106ab09d1f595eccc81899d3164d31242458ba@ec2-23-23-151-191.compute-1.amazonaws.com:5432/d9c0t8kfbi1t2k'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://mxykwmrfixgxll:19711ff96fa8cea70735297638106ab09d1f595eccc81899d3164d31242458ba@ec2-23-23-151-191.compute-1.amazonaws.com:5432/d9c0t8kfbi1t2k'
 
 app.secret_key= config('SECRET_KEY')
 # app.config['IMAGE_UPLOADS'] = r'C:\Users\zinox\Desktop\pyweb\TechWithTim\flask_app\static\images'
-app.config['IMAGE_UPLOADS'] = '/tmp/'
+app.config['IMAGE_UPLOADS'] = os.getcwd()+"/"+"temporal"
 app.config["AVATER-FILE"] = ""
 app.config["PROFILE_UPLOADED"] = "false"
 app.permanent_session_lifetime=timedelta(minutes=2)
@@ -194,8 +194,16 @@ def post():
     title = request.form["title"]
     category = request.form['category']
     post = request.form['post']
-    
+   
     uploadPostImage(author, email, author_URL, post_URL, title, category, post)
+    posts = Post.query.order_by(Post.time).all()
+    register = Register.query.filter_by(email = session["email"]).first()  
+    
+    return redirect(url_for('dashboard', data = session, 
+                                   profile_uploaded = app.config["PROFILE_UPLOADED"], 
+                                   my_path=app.config["IMAGE_UPLOADS"], 
+                                   file_list =  os.listdir(app.config['IMAGE_UPLOADS']), 
+                                   view="home", submitted_posts = posts, avater = register.avater))
 
   else:
     register = Register.query.filter_by(email = session["email"]).first()          
@@ -225,7 +233,7 @@ def uploadAvater(URL):
   cloudinary.config(cloud_name = config('CLOUD_NAME'), api_key= config('API_KEY'), 
   api_secret= config('API_SECRET'))
   response= cloudinary.uploader.upload(URL)
-  saveAvater(response.get('secure_URL'))
+  saveAvater(response.get('secure_url'))
   
   
 def saveAvater(URL):
@@ -233,12 +241,7 @@ def saveAvater(URL):
   register = Register.query.filter_by(email = session['email']).first()
   register.avater = URL
   db.session.commit()
-  # return redirect(url_for('dashboard', data = session, 
-  #                                  profile_uploaded = app.config["PROFILE_UPLOADED"], 
-  #                                  my_path=app.config["IMAGE_UPLOADS"], 
-  #                                  file_list =  os.listdir(app.config['IMAGE_UPLOADS']), 
-  #                                  view="home", submitted_posts = posts))
-  # ...
+  
 
 def uploadPostImage(author, email, author_URL, post_URL, title, category, post):
 
@@ -256,13 +259,8 @@ def savePostImageURL(author, email, author_URL, post_URL, title, category, post)
                 post_URL = post_URL, title = title, category = category,post=post)
   db.session.add(post)
   db.session.commit()
-  posts = Post.query.order_by(Post.time).all()
-  register = Register.query.filter_by(email = session["email"]).first()         
-  return redirect(url_for('dashboard', data = session, 
-                                   profile_uploaded = app.config["PROFILE_UPLOADED"], 
-                                   my_path=app.config["IMAGE_UPLOADS"], 
-                                   file_list =  os.listdir(app.config['IMAGE_UPLOADS']), 
-                                   view="home", submitted_posts = posts, avater = register.avater))
+        
+  
   
 
 if __name__ == "__main__":
