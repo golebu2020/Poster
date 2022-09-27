@@ -17,8 +17,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 app = Flask(__name__)
 load_dotenv()
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://mxykwmrfixgxll:19711ff96fa8cea70735297638106ab09d1f595eccc81899d3164d31242458ba@ec2-23-23-151-191.compute-1.amazonaws.com:5432/d9c0t8kfbi1t2k'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = ' postgresql://secxfthtmjgdfm:8b25c99a1c6a8fd5ef6c5b5c161e3a9fcd1d4bd2486cb0091e3678c20b6d6ddf@ec2-52-4-87-74.compute-1.amazonaws.com:5432/dfa3ntrh04h62t'
 
 app.secret_key= config('SECRET_KEY')
 # app.config['IMAGE_UPLOADS'] = r'C:\Users\zinox\Desktop\pyweb\TechWithTim\flask_app\static\images'
