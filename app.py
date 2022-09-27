@@ -110,11 +110,6 @@ def login():
           
             
           register = Register.query.filter_by(email = session["email"]).first() 
-          # return render_template('dashboard.html', data = session, 
-          #                          profile_uploaded = app.config["PROFILE_UPLOADED"], 
-          #                          my_path=app.config["IMAGE_UPLOADS"], 
-          #                          file_list =  os.listdir(app.config['IMAGE_UPLOADS']), 
-          #                          submitted_posts = posts, avater = register.avater)
           return render_template('dashboard.html', data = session, profile_uploaded = app.config["PROFILE_UPLOADED"],
                                   my_path=app.config["IMAGE_UPLOADS"], submitted_posts = posts, avater = register.avater)
         else:
@@ -147,7 +142,7 @@ def dashboard():
       register = Register.query.filter_by(email = session["email"]).first()
       return render_template('dashboard.html', avater_url = profile_photo, 
                            data = session, profile_uploaded = app.config["PROFILE_UPLOADED"], 
-                           my_path= app.config["IMAGE_UPLOADS"], file_list =  os.listdir(app.config['IMAGE_UPLOADS']),
+                           my_path= app.config["IMAGE_UPLOADS"],
                            view = "home", submitted_posts = posts, avater = register.avater)
     
   else:
@@ -159,8 +154,7 @@ def dashboard():
       register = Register.query.filter_by(email = session["email"]).first()         
       return render_template('dashboard.html', data = session, 
                                    profile_uploaded = app.config["PROFILE_UPLOADED"], 
-                                   my_path=app.config["IMAGE_UPLOADS"], 
-                                   file_list =  os.listdir(app.config['IMAGE_UPLOADS']), 
+                                   my_path=app.config["IMAGE_UPLOADS"],                             
                                    submitted_posts = posts, avater = register.avater)
     else:
       return redirect("/login")
@@ -204,15 +198,13 @@ def post():
     return redirect(url_for('dashboard', data = session, 
                                    profile_uploaded = app.config["PROFILE_UPLOADED"], 
                                    my_path=app.config["IMAGE_UPLOADS"], 
-                                   file_list =  os.listdir(app.config['IMAGE_UPLOADS']), 
                                    view="home", submitted_posts = posts, avater = register.avater))
 
   else:
     register = Register.query.filter_by(email = session["email"]).first()          
     return render_template('dashboard.html', data = session, view="post",
                                    profile_uploaded = app.config["PROFILE_UPLOADED"], 
-                                   my_path=app.config["IMAGE_UPLOADS"], 
-                                   file_list =  os.listdir(app.config['IMAGE_UPLOADS']),
+                                   my_path=app.config["IMAGE_UPLOADS"],
                                    avater = register.avater)
       
 
@@ -223,7 +215,6 @@ def details(title, post):
     return render_template('details.html', data = session, view="post",
                                    profile_uploaded = app.config["PROFILE_UPLOADED"], 
                                    my_path=app.config["IMAGE_UPLOADS"],
-                                   file_list =  os.listdir(app.config['IMAGE_UPLOADS']), 
                                    title=title, post=post, avater = register.avater)
 
 def checkPasswordValidity(password, repassword):
