@@ -208,12 +208,15 @@ def post():
                                    view="home", submitted_posts = posts, avater = register.avater))
 
   else:
-    register = Register.query.filter_by(email = session["email"]).first()          
-    return render_template('dashboard.html', data = session, view="post",
+    register = Register.query.filter_by(email = session["email"]).first()
+    if register:
+      return render_template('dashboard.html', data = session, view="post",
                                    profile_uploaded = app.config["PROFILE_UPLOADED"], 
                                    my_path=app.config["IMAGE_UPLOADS"], 
                                    file_list =  os.listdir(app.config['IMAGE_UPLOADS']),
                                    avater = register.avater)
+    else:
+      return redirect(request.url)
       
 
 @app.route("/dashboard/details/<title>/<post>", methods=["POST", "GET"])
