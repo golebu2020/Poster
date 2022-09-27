@@ -18,7 +18,7 @@ app = Flask(__name__)
 load_dotenv()
 
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
-app.config['SQLALCHEMY_DATABASE_URI'] = ' postgresql://secxfthtmjgdfm:8b25c99a1c6a8fd5ef6c5b5c161e3a9fcd1d4bd2486cb0091e3678c20b6d6ddf@ec2-52-4-87-74.compute-1.amazonaws.com:5432/dfa3ntrh04h62t'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://cmsqomstytdkkh:1c4c673306331930ee26ea6a34d5ecb83391308542ff7aad8ea40f82c9934e17@ec2-52-4-87-74.compute-1.amazonaws.com:5432/d6kqq4ocmiugih'
 
 app.secret_key= config('SECRET_KEY')
 # app.config['IMAGE_UPLOADS'] = r'C:\Users\zinox\Desktop\pyweb\TechWithTim\flask_app\static\images'
