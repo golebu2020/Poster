@@ -17,3 +17,11 @@ function changeProfile(){
   // console.log("An Error Ocurred")
   // document.getElementById("avater-change-image").src = "{{url_for('static', filename= 'male_pics.JPG')}}";
 }
+
+function hideMenu(){
+  console.log("Menu is hidden");
+}
+
+
+menu = document.querySelector(".menu");
+menu.onclick = hideMenu;

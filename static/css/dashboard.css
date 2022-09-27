@@ -26,6 +26,7 @@ body {
     to body*/
     overflow-x: hidden;
     background-color: #f2f2f5e3;
+    position: relative;
 }
 
 .container {
@@ -41,7 +42,18 @@ header{
   justify-content: space-between;
   align-items: center;
   font-size: 1.2rem;
+  
+  
 }
+
+.menu{
+  width: 3.2rem;
+  height: 3.2rem;
+  color: #fff;
+  position: absolute;
+  visibility: hidden;
+}
+
 .nav-links{
   list-style-type: none;
   display: flex;
