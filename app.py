@@ -22,7 +22,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://cmsqomstytdkkh:1c4c6733063
 
 app.secret_key= config('SECRET_KEY')
 # app.config['IMAGE_UPLOADS'] = r'C:\Users\zinox\Desktop\pyweb\TechWithTim\flask_app\static\images'
-app.config['IMAGE_UPLOADS'] = os.getcwd()+"/"+"temporal"
+app.config['IMAGE_UPLOADS'] = os.getcwd()
 app.config["AVATER-FILE"] = ""
 app.config["PROFILE_UPLOADED"] = "false"
 app.permanent_session_lifetime=timedelta(minutes=2)
