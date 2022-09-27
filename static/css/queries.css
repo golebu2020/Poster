@@ -37,6 +37,28 @@
     padding-left: 0;
     padding-right:0;
     padding-bottom:0;
+    
+  }
+
+  .login-container, .register-container{
+    padding-left: 2.4rem;
+    padding-right:2.4rem;
+    margin: 2.4rem;
+    
+    
+  }
+
+
+  .site-logo{
+    position: relative;
+    width: 25%;
+    height: 25%;
+    top: 0rem;
+    
+  }
+
+  .navigator{
+    margin-top: 2rem;
   }
   
   .blog-container{
